@@ -21,3 +21,5 @@ app.register_blueprint(admin_auth.bp)
 @app.route('/hello')
 def hello():
     return 'hello'
+
+
