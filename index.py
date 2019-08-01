@@ -22,4 +22,6 @@ app.register_blueprint(admin_auth.bp)
 def hello():
     return 'hello'
 
-
+@app.route('/for/git')
+def for_git():
+    return 'shit'
