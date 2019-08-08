@@ -1,4 +1,25 @@
-.main_title {
+.nav {
+    list-style-type: none;
+}
+
+.nav li {
+    font-size: 20px;
+    display: block;
+}
+
+.home-title {
+    clear: both;
+    text-align: center;
+}
+
+.slogan {
     float: left;
-    color: red
+}
+
+.home-float-right {
+    float: right;
+    width: 100px;
+}
+.main-section{
+    clear: both;
 }

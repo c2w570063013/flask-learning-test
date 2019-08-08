@@ -6,14 +6,19 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('home.static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('website.static', filename='css/style.css') }}">
+    {% block stylesheet %}{% endblock %}
 </head>
 <body>
-<nav>
-    <h1 class="main_title">Flask Final Test</h1>
-</nav>
+<ul class="nav">
+    <li class="slogan "><a href="{{ url_for('website.index') }}">Flask Test</a></li>
+    <li class="home-float-right"><a href="{{ url_for('website.login') }}">login</a></li>
+    <li class="home-float-right"><a href="{{ url_for('website.register') }}">register</a></li>
+</ul>
 
-{% block content %}{% endblock %}
+<section class="main-section">
+    {% block content %}{% endblock %}
+</section>
 
 </body>
 </html>
