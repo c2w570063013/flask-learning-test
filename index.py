@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -12,6 +13,9 @@ app.config.from_mapping(
     # store the database in the instance folder
     # DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
 )
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wayne@127.0.0.1/flask_test'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+# db = SQLAlchemy(app)
 
 app.register_blueprint(auth.auth_blueprint)
 app.register_blueprint(home.home_blueprint)
@@ -21,6 +25,3 @@ app.register_blueprint(admin_auth.bp)
 @app.route('/hello')
 def hello():
     return 'hello'
-
-
-
