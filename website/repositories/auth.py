@@ -1,6 +1,8 @@
 from flask import request, redirect, url_for, render_template, session, g, flash
 import hashlib
 from website.models import User, db
+from website.fun import logger
+import traceback
 
 
 def load_logged_in_user():
@@ -46,6 +48,9 @@ def register():
             return redirect(url_for('website.login'))
         return render_template('auth/register.html')
     except Exception as e:
+        # record to log
+        logger(str(e), traceback.format_exc())
+        # flash error to template
         flash(str(e))
         return redirect(url_for('website.error_page'))
 
