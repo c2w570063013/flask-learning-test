@@ -12,8 +12,13 @@
 <body>
 <ul class="nav">
     <li class="slogan "><a href="{{ url_for('website.index') }}">Flask Test</a></li>
-    <li class="home-float-right"><a href="{{ url_for('website.login') }}">login</a></li>
-    <li class="home-float-right"><a href="{{ url_for('website.register') }}">register</a></li>
+    {% if g.user %}
+        <li class="home-float-right"><a href="{{ url_for('website.logout') }}">logout</a></li>
+        <li class="home-float-right">hello, {{ g.user['email'] }}</li>
+    {% else %}
+        <li class="home-float-right"><a href="{{ url_for('website.login') }}">login</a></li>
+        <li class="home-float-right"><a href="{{ url_for('website.register') }}">register</a></li>
+    {% endif %}
 </ul>
 
 <section class="main-section">
