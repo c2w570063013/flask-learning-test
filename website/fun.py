@@ -1,5 +1,6 @@
 from termcolor import colored
 import datetime
+import traceback
 
 
 def print_with_color(text, color='red'):
@@ -12,11 +13,11 @@ def print_with_color(text, color='red'):
     print(colored(text, color))
 
 
-def logger(error, traceback='', file=None):
+def logger(error, if_trace=True, file=None):
     """
     write to log
     :param error:
-    :param traceback:
+    :param if_trace:
     :param file:
     :return:
     """
@@ -24,4 +25,7 @@ def logger(error, traceback='', file=None):
         file = 'website/storage/logs/flask-' + str(datetime.date.today()) + '.log'
     date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open(file, 'a') as fo:
-        fo.write("[" + date + "] " + error + "\n" + traceback + "\n")
+        text = "[" + date + "] " + error + "\n"
+        if if_trace is True:
+            text += traceback.format_exc() + "\n"
+        fo.write(text)

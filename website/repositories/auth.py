@@ -1,8 +1,6 @@
 from flask import request, redirect, url_for, render_template, session, g, flash
 import hashlib
 from website.models import User, db
-from website.fun import logger
-import traceback
 
 
 def load_logged_in_user():
@@ -38,21 +36,16 @@ def register():
     login function
     :return:
     """
-    try:
-        if request.method == 'POST':
-            email = request.form['email']
-            pwd = hashlib.md5(request.form['password'].encode()).hexdigest()
-            user = User(email=email, password=pwd)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('website.login'))
-        return render_template('auth/register.html')
-    except Exception as e:
-        # record to log
-        logger(str(e), traceback.format_exc())
-        # flash error to template
-        flash(str(e))
-        return redirect(url_for('website.error_page'))
+
+    if request.method == 'POST':
+        email = request.form['email']
+        # hashing pwd with md5 encryption
+        pwd = hashlib.md5(request.form['password'].encode()).hexdigest()
+        user = User(email=email, password=pwd)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('website.login'))
+    return render_template('auth/register.html')
 
 
 def logout():
@@ -60,8 +53,5 @@ def logout():
     logout
     :return:
     """
-    try:
-        session.clear()
-        return redirect(url_for('website.index'))
-    except Exception as e:
-        print(e)
+    session.clear()
+    return redirect(url_for('website.index'))
