@@ -1,6 +1,6 @@
 from flask import Flask
 
-from admin import auth
+# from admin import auth
 
 app = Flask(__name__)
-app.register_blueprint(auth.bp)
+# app.register_blueprint(auth.bp)

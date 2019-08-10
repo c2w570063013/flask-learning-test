@@ -1,27 +1,28 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+# can not do like this "from . import config", which will get an error cause this project is
+# initialed from a file 'index.py' not a directory
+from config import *
+from website import routes as website
+from api import payment
+from admin import routes as admin
+from website.models import db
+from admin.models import db as db2
+from website.repositories.home import index
 
 app = Flask(__name__)
 
-from website import auth, home
-from api import payment
-from admin import auth as admin_auth
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
+app.secret_key = SECRET_KEY
+db.init_app(app)
+db2.init_app(app)
 
-app.config.from_mapping(
-    # a default secret that should be overridden by instance config
-    SECRET_KEY="dev",
-    # store the database in the instance folder
-    # DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
-)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wayne@127.0.0.1/flask_test'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-# db = SQLAlchemy(app)
-
-app.register_blueprint(auth.auth_blueprint)
-app.register_blueprint(home.home_blueprint)
 app.register_blueprint(payment.payment_bp)
-app.register_blueprint(admin_auth.bp)
+app.register_blueprint(admin.admin)
+app.register_blueprint(website.website)
 
-@app.route('/hello')
-def hello():
-    return 'hello'
+
+# home page
+@app.route('/')
+def home():
+    return index()

@@ -1,8 +1,10 @@
 from flask import Blueprint, redirect, url_for, flash
 from .repositories import auth
 from .repositories import home
+from .models import db
 
-website = Blueprint('website', __name__, template_folder='templates', static_folder='static')
+website = Blueprint('website', __name__, template_folder='templates',
+                    static_folder='static', url_prefix='/home')
 
 # before login (like middleware in laravel??)
 website.before_app_request(auth.load_logged_in_user)
