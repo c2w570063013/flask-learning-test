@@ -26,7 +26,7 @@ def login():
         if user is None:
             return redirect(url_for('website.login'))
         session.clear()
-        session['user_id'] = user.__dict__['id']
+        session['user_id'] = user.id
         return redirect(url_for('website.index'))
     return render_template('auth/login.html')
 

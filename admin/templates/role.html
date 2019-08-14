@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{{ url_for('admin.auth.static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('admin.static', filename='style.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -9,10 +9,20 @@
     <title>Document</title>
 </head>
 <body>
-{#<h2 class="login">logging come on</h2>#}
+<h3><a href="{{ url_for('admin.home') }}">Home Page</a></h3>
 <div class="role-form">
-    <form action="">
+    <form action="{{ url_for('admin.add_role') if role is not defined else url_for('admin.edit_role',id=role.id) }}"
+          method="post">
 
+        <div class="role-name">
+            <span>role name</span>
+            <input type="text" name="role_name" value="{{ '' if role is not defined else role.name }}">
+        </div>
+        <div class="role-level">
+            <span>type</span>
+            <input type="text" name="type" value="{{ '' if role is not defined else role.type }}">
+        </div>
+        <button type="submit" class="role-button">提交</button>
     </form>
 </div>
 </body>

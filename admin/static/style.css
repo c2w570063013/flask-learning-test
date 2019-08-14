@@ -1,3 +1,37 @@
-.login{
+.login {
     color: green;
+}
+
+.admin-home-title {
+    display: inline-block;
+    color: blue;
+}
+
+.home-manage {
+    float: right
+}
+
+.role-form {
+    text-align: center;
+}
+
+.role-button {
+    margin-left: -180px;
+}
+
+.list-role {
+    text-align: center;
+}
+
+.wrap-head {
+    clear: both;
+}
+
+.list-role ul {
+    list-style-type: none;
+}
+
+.flash {
+    color: red;
+    font-size: 30px;
 }
