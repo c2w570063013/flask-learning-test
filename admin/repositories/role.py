@@ -9,7 +9,7 @@ def add_role():
         role_model = Role(name=name, type=level)
         db.session.add(role_model)
         db.session.commit()
-        return redirect(url_for('admin.home'))
+        return redirect(url_for('manual_admin.home'))
     return render_template('role.html')
 
 
@@ -22,7 +22,7 @@ def delete_role(id):
         error = None
     if error is not None:
         flash(error)
-    return redirect(url_for('admin.home'))
+    return redirect(url_for('manual_admin.home'))
 
 
 def edit_role(id):
@@ -32,6 +32,6 @@ def edit_role(id):
             role.name = request.form['role_name']
             role.type = request.form['type']
             db.session.commit()
-            return redirect(url_for('admin.home'))
+            return redirect(url_for('manual_admin.home'))
         flash('id: ' + str(id) + " not exists")
     return render_template('role.html', role=role)

@@ -2,7 +2,8 @@ from flask import Blueprint, render_template
 from .repositories import role
 from .models import Role
 
-admin = Blueprint('admin', __name__, template_folder='templates', static_folder='static', url_prefix='/admin')
+admin = Blueprint('manual_admin', __name__, template_folder='templates', static_folder='static',
+                  url_prefix='/manual_admin')
 
 
 # admin home page

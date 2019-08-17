@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{{ url_for('admin.static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('manual_admin.static', filename='style.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -9,9 +9,9 @@
     <title>Document</title>
 </head>
 <body>
-<h3><a href="{{ url_for('admin.home') }}">Home Page</a></h3>
+<h3><a href="{{ url_for('manual_admin.home') }}">Home Page</a></h3>
 <div class="role-form">
-    <form action="{{ url_for('admin.add_role') if role is not defined else url_for('admin.edit_role',id=role.id) }}"
+    <form action="{{ url_for('manual_admin.add_role') if role is not defined else url_for('manual_admin.edit_role',id=role.id) }}"
           method="post">
 
         <div class="role-name">
