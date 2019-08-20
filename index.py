@@ -10,6 +10,9 @@ from admin.models import db as db2
 from website.repositories.home import index
 from flask_admin import Admin
 from flask_celery import make_celery
+import click
+from flask.cli import AppGroup
+import flask_cmd
 
 app = Flask(__name__)
 
@@ -49,9 +52,30 @@ admin = Admin(app, name='microblog', template_mode='bootstrap3')
 app.register_blueprint(payment.payment_bp)
 app.register_blueprint(manual_admin.admin)
 app.register_blueprint(website.website)
+app.register_blueprint(flask_cmd.bp)
 
 
 # home page
 @app.route('/')
 def home():
     return index()
+
+
+# flask command test 'flask create-user admin'
+@app.cli.command('create-user')
+@click.argument("name")
+def create_user(name):
+    print('hello ' + name)
+
+
+user_cli = AppGroup('user')
+
+
+# flask group command test 'flask user  create demo'
+@user_cli.command('create')
+@click.argument('name')
+def create_user(name):
+    print(name)
+
+
+app.cli.add_command(user_cli)
