@@ -22,7 +22,7 @@ python3 -m venv venv
 ```shell script
 pip3 install -r requirements.txt
 ```
-4.create config.py in this project root
+4.create config.py in this project's root dir and website's dir
 
 5.start running
 ```shell script
