@@ -1,0 +1,7 @@
+Flask
+celery
+click
+Flask-Admin
+Flask-SQLAlchemy
+termcolor
+PyMySQL
