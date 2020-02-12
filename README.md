@@ -104,3 +104,5 @@ sudo touch /var/log/flask_test/flask_test.out.log
 ```shell script
 sudo supervisorctl reload
 ```
+>notice: once you change something configuration, you may are likely 
+>need to reload supervisor as well. 
