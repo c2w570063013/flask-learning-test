@@ -22,7 +22,9 @@ python3 -m venv venv
 ```shell script
 pip3 install -r requirements.txt
 ```
-4.start running
+4.create config.py in this project root
+
+5.start running
 ```shell script
 export FLASK_APP=index.py
 flask run
