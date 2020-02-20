@@ -31,7 +31,6 @@ def receive_message_from_user(message):
 def receive_username(username):
     users[username] = request.sid
     sids[request.sid] = username
-    print(users)
 
 
 @socketio.on('private_message', namespace='/private')
