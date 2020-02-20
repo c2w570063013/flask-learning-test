@@ -1,43 +1,38 @@
 $(document).ready(function () {
-
-    //initial socket
-    var socket = io.connect('http://127.0.0.1:5000');
-
-    socket.on('connect', function () {
-        socket.send('User has connected');
+    var socket_messages = io('http://127.0.0.1:5000/messages');
+    var private_socket = io('http://127.0.0.1:5000/private');
+    var today = new Date();
+    var time = today.getHours() + ":" + today.getMinutes() + ',' + '今天';
+    $("#submit_name").on('click', function () {
+        var username = $('#username').val();
+        private_socket.emit('username', username);
+        $("#input_user_").hide();
+        var append_element = "<p style='display: block;'>你好: <span style='font-weight: bold'>" + username + "</span></p>";
+        $(".user_info").append(append_element);
     });
 
-    socket.on('message', function (msg) {
-        let searchParams = new URLSearchParams(window.location.search);
-        let param = searchParams.get('key');
-        if (msg.indexOf(param) >= 0) {
-            console.log('shit');
-        } else {
-            length_ = msg.indexOf('<!*!>') + 5;
-            msg = msg.substring(length_);
-            console.log(msg.indexOf('<!*!>'));
-            var element2 = "<div class='d-flex justify-content-start mb-4'><div class='img_cont_msg'><img src='static/img/profile.jpg' class='rounded-circle user_img_msg'></div><div class='msg_cotainer'>" + msg + "<span class='msg_time'>9:00 AM, Today</span></div></div>";
-            $(".msg_card_body").append(element2);
-            $("#messageBody").animate({scrollTop: 20000000}, "slow");
-        }
-    });
     $("#sendbutton").on('click', function () {
-        var content = $("#myMessage").val();
-        var content_ = content.trim(' ');
-        if (content_.length == 0) {
-            return false;
-        }
-        let searchParams = new URLSearchParams(window.location.search);
-        let param = searchParams.get('key');
-        socket.send(param + '<!*!>' + content_);
+        var recipient = $('#recipient_name').val();
+        var message_to_send = $('#myMessage').val();
+        private_socket.emit('private_message', {'username': recipient, 'message': message_to_send});
         $("#myMessage").val('');
-        //show messages on the chatting board
-        var element = "<div class='d-flex justify-content-end mb-4'><div class='msg_cotainer_send'>" + content_ + "<span class='msg_time_send'>8:55 AM, Today</span></div><div class='img_cont_msg'><img src='static/img/profile2.jpg' class='rounded-circle user_img_msg'></div></div>";
+        var element = "<div class='d-flex justify-content-end mb-4'><div class='msg_cotainer_send'>" + message_to_send + "<span class='msg_time_send'>" + time + "<p style='color: white;display: inline'> √</p></span></div><div class='img_cont_msg'><img src='static/img/profile2.jpg' class='rounded-circle user_img_msg'></div></div>";
         $(".msg_card_body").append(element);
-        //scroll down
-        // $("html, body").animate({scrollTop: $(document).height()}, 1000);
         $("#messageBody").animate({scrollTop: 20000000}, "slow");
     });
+
+    private_socket.on('new_private_message', function (msg) {
+        if (msg.username != $("#recipient_name").val()) {
+            console.log(msg.username);
+            console.log($("#recipient_name").val());
+            return false;
+        }
+        console.log(msg.username);
+        var element2 = "<div class='d-flex justify-content-start mb-4'><div class='img_cont_msg'><img src='static/img/profile.jpg' class='rounded-circle user_img_msg'></div><div class='msg_cotainer'>" + msg.message + "<span class='msg_time'>" + time + "</span></div></div>";
+        $(".msg_card_body").append(element2);
+        $("#messageBody").animate({scrollTop: 20000000}, "slow");
+    });
+
     $("#myMessage").keypress(function (e) {
         if (e.keyCode == 13 && !e.shiftKey) {
             $('#sendbutton').click();
@@ -45,5 +40,5 @@ $(document).ready(function () {
         } else {
             return true;
         }
-    })
-})
+    });
+});
