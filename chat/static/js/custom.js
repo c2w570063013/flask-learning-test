@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    var socket_messages = io('http://127.0.0.1:5000/messages');
     var private_socket = io('http://66.42.40.223:8003/private');
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ',' + '今天';
