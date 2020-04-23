@@ -62,14 +62,12 @@ def web_hook():
             send_msg(chat_id, 'command doesn\'t exist')
             return Response('ok', status=200)
         price_date, final_list = get_top10_crypto()
-        # text = '*' + price_date + '*' + "\n" + '*crypto   price   1day_change_pct   30d_change_pct*' + "\n"
-        # for i in final_list:
-        #     text += i['name'] + '   *' + i['price'] + '*   ' + i['1d_price_change_pct'] + '   ' + i[
-        #         '30d_price_change_pct'] + "\n"
-        text = '*' + price_date + "*" + "\n" + "*crypto\tprice\t1day_change_pct\t30d_change_pct\t*" + "\n"
+        text = '*' + price_date + '*' + "\n" + '*crypto   price   1day_change_pct   30d_change_pct*' + "\n"
         for i in final_list:
-            text += i['name'] + "\t*" + i['price'] + "\t*" + i['1d_price_change_pct'] + "\t" + i[
-                '30d_price_change_pct'] + "\t\n"
+            price = str(round(float(i['price']), 4))
+            d_change_pct = str(round(float(i['1d_price_change_pct']) * 100, 1)) + '%'
+            d30_change_pct = str(round(float(i['30d_price_change_pct']) * 100, 1)) + '%'
+            text += i['name'] + '   *' + price + '*   ' + d_change_pct + '   ' + d30_change_pct + "\n"
         send_msg(chat_id, text)
 
         return Response('ok', status=200)
