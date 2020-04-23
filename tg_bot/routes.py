@@ -35,7 +35,7 @@ def send_msg(chat_id, text='bla-bla-bal--'):
     return r
 
 
-@tg.route('/web_hook', method=['POST', 'GET'])
+@tg.route('/web_hook', methods=['POST', 'GET'])
 def web_hook():
     if request.method == 'POST':
         msg = request.get_json()
