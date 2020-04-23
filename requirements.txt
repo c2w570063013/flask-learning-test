@@ -12,3 +12,5 @@ gevent
 flask-socketio
 Flask-Login==0.4.1
 Flask-Session==0.3.1
+requests
+python-telegram-bot

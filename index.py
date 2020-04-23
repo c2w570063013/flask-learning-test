@@ -3,6 +3,7 @@ from flask import Flask
 # initialed from a file 'index.py' not a directory
 from config import *
 from website import routes as website
+from tg_bot.routes import tg
 from api import payment
 from admin import routes as manual_admin
 from website.models import db
@@ -53,6 +54,7 @@ app.register_blueprint(payment.payment_bp)
 app.register_blueprint(manual_admin.admin)
 app.register_blueprint(website.website)
 app.register_blueprint(flask_cmd.bp)
+app.register_blueprint(tg)
 
 
 # home page
