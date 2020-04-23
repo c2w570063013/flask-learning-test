@@ -9,6 +9,10 @@ from flask import Response
 tg = Blueprint('tg', __name__, url_prefix='/tg')
 
 bot_key = '1051400474:AAEkNqkdvOem7_mLJwpnjSHEcrsYSbuE8Fk'
+top_10btc_api = 'https://nomics.com/data/currencies/ticker?include-transparency=false&interval=1d,30d&labels=0&limit=10&quote-currency=USD&start=0'
+valid_commands = [
+    '/cryptoprice'
+]
 
 
 # test
@@ -19,7 +23,7 @@ bot_key = '1051400474:AAEkNqkdvOem7_mLJwpnjSHEcrsYSbuE8Fk'
 # https://api.telegram.org/bot1051400474:AAEkNqkdvOem7_mLJwpnjSHEcrsYSbuE8Fk/setWebhook?url=https://crosseverycorner.xyz/tg/web_hook
 @tg.route('/setup')
 def setup():
-    return 'hello world'
+    return 'hello'
 
 
 def parse_msg(msg):
@@ -30,9 +34,23 @@ def parse_msg(msg):
 
 def send_msg(chat_id, text='bla-bla-bal--'):
     url = f'https://api.telegram.org/bot{bot_key}/sendMessage'
-    payload = {'chat_id': chat_id, 'text': text}
+    payload = {'chat_id': chat_id, 'text': text, 'parse_mode': 'markdown'}
     r = requests.post(url, json=payload)
     return r
+
+
+def get_top10_crypto():
+    res = requests.get(top_10btc_api).json()
+    final_list = []
+    price_date = res['items'][0]['price_date']
+    for i in res['items']:
+        final_list.append({
+            'name': i['symbol'],
+            'price': i['price'],
+            '1d_price_change_pct': i['1d']['price_change_pct'],
+            '30d_price_change_pct': i['30d']['price_change_pct']
+        })
+    return price_date, final_list
 
 
 @tg.route('/web_hook', methods=['POST', 'GET'])
@@ -40,7 +58,15 @@ def web_hook():
     if request.method == 'POST':
         msg = request.get_json()
         chat_id, tex = parse_msg(msg)
-        send_msg(chat_id, 'test test test')
+        if tex not in valid_commands:
+            send_msg(chat_id, 'command doesn\'t exist')
+            return Response('ok', status=200)
+        price_date, final_list = get_top10_crypto()
+        text = '*' + price_date + '*' + "<br>" + '*crypto   price   1day_change_pct   30d_change_pct*' + "<br>"
+        for i in final_list:
+            text += i['name'] + '   *' + i['price'] + '*   ' + i['1d_price_change_pct'] + '   ' + i[
+                '30d_price_change_pct'] + "<br>"
+        send_msg(chat_id, text)
 
         return Response('ok', status=200)
     else:
